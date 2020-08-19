@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from .models import Project
 
 class ProjectSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField
@@ -10,3 +11,7 @@ class ProjectSerializer(serializers.Serializer):
     date_created = serializers.DateTimeField()
     owner = serializers.CharField(max_length=200)
     sample = serializers.CharField(max_length=10000)
+
+    def create(self, validated_data):
+        return Project.objects.create(**validated_data)
+    
