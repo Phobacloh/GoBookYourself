@@ -11,3 +11,14 @@ class Project(models.Model):
     date_created = models.DateTimeField()
     owner = models.CharField(max_length=200)
     sample = models.TextField()
+
+class Pledge(models.Model):
+    amount = models.IntegerField()
+    comment = model.Charfield(max_length=200)
+    anonymous = models.BooleanField()
+    project = models.ForeignKey(
+        'Project',
+        on_delete=models.CASCADE,
+        related_name='pledges'
+    )
+    supporter = models.CharField(max_length=200)
