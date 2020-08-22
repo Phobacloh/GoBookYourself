@@ -19,13 +19,33 @@ class ProjectSerializer(serializers.Serializer):
     image = serializers.URLField()
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
-    owner = serializers.CharField(max_length=200)
+    # owner = serializers.CharField(max_length=200)
     sample = serializers.CharField()
     pledges = PledgeSerializer(many=True, read_only=True)
+    owner = serializers.ReadOnlyField(source='owner.id')
 
     def create(self, validated_data):
         return Project.objects.create(**validated_data)
     
+    
+    
+#**validated_data is compacting the dictionaries so you don't have to type it out individually like below:
+        # title=validated_data.title, 
+        
+class ProjectDetailSerializer(ProjectSerializer):
+    pledges = PledgeSerializer(many=True, read_only=True)
+
+    # def update(self, instance, validated_data):
+        # instance.title = validated_data.get('title', instance.title)
+        # instance.description = validated_data.get('description', instance.description)
+        # instance.goal = validated_data.get('goal', instance.goal)
+        # instance.image = validated_data.get('image', instance.image)
+        # instance.is_open = validated_data.get('is_open', instance.is_open)
+        # instance.date_created = validated_data.get('date_created', instance.date_created)
+        # instance.owner = validated_data.get('owner', instance.owner),
+        # instance.save()
+        # return instance
+
     def update(self, instance, validated_data):
         instance.title = validated_data.get('title', instance.title)
         instance.description = validated_data.get('description', instance.description)
@@ -33,13 +53,9 @@ class ProjectSerializer(serializers.Serializer):
         instance.image = validated_data.get('image', instance.image)
         instance.is_open = validated_data.get('is_open', instance.is_open)
         instance.date_created = validated_data.get('date_created', instance.date_created)
+        instance.owner = validated_data.get('owner', instance.owner)
+        instance.save()
         return instance
-    
-#**validated_data is compacting the dictionaries so you don't have to type it out individually like below:
-        # title=validated_data.title, 
-        
-class ProjectDetailSerializer(ProjectSerializer):
-    pledges = PledgeSerializer(many=True, read_only=True)
 
 
 
