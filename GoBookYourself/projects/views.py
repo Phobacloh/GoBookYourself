@@ -40,6 +40,40 @@ class ProjectDetail(APIView):
         serializer = ProjectSerializer(project)
         return Response(serializer.data)
 
+class ProjectUpdate(APIView):
+
+    def get_object(self,pk):
+        try:
+            return Project.objects.get(pk=pk)
+        except Project.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk):
+        project = self.get_object(pk)
+        serializer = ProjectSerializer(project)
+        return Response(serializer.data)    
+    
+    # def get(self, request, pk):
+    #     project = Project.objects.get(pk=pk)
+    #     serializer = ProjectSerializer(project)
+    #     return Response(serializer.data)
+
+    def put(self, request, pk):
+        # try:
+        #     return Project.objects.get(pk=pk)
+        # except Project.DoesNotExist:
+        #     raise Http404
+        project = self.get_object(pk)
+        serializer = ProjectSerializer(Project, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
 class PledgeList(APIView):
 
     def get(self, request):
