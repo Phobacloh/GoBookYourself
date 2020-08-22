@@ -61,6 +61,10 @@ class ProjectDetail(APIView):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
+    def delete (self, request, pk):
+        project = self.get_object(pk)
+        project.delete()
+        return Response (status=status.HTTP_204_NO_CONTENT)
 
 class PledgeList(APIView):
 
