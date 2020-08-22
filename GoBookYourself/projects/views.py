@@ -31,7 +31,8 @@ class ProjectList(APIView):
 
 
 class ProjectDetail(APIView):
-
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+     
     def get_object(self,pk):
         try:
             return Project.objects.get(pk=pk)
@@ -44,14 +45,11 @@ class ProjectDetail(APIView):
         return Response(serializer.data)
 
     def put(self, request, pk):
-        # try:
-        #     return Project.objects.get(pk=pk)
-        # except Project.DoesNotExist:
-        #     raise Http404
         project = self.get_object(pk)
+        data = request.data
         serializer = ProjectDetailSerializer(
             instance=project, 
-            data=request.data, 
+            data=data, 
             partial=True
             )
 
