@@ -27,7 +27,31 @@ class CustomUserDetail(APIView):
             return CustomUser.objects.get(pk=pk)
         except CustomUser.DoesNotExist:
             raise Http404
+        
     def get(self, request, pk):
         user = self.get_object(pk)
         serializer = CustomUserSerializer(user)
         return Response(serializer.data)
+    
+    def delete (self, request, pk):
+        user = self.get_object(pk)
+        user.delete()
+        return Response (status=status.HTTP_204_NO_CONTENT)
+    
+    def put(self, request, pk):
+        user = self.get_object(pk)
+        data = request.data
+        serializer = CustomUserSerializer(
+            instance=user, 
+            data=data, 
+            partial=True
+            )
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response(
+                serializer.errors,
+                status=status.HTTP_400_BAD_REQUEST
+            )
