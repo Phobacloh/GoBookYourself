@@ -34,7 +34,9 @@ class ProjectList(APIView):
 
 class ProjectDetail(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
-     
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+    
     def get_object(self,pk):
         try:
             return Project.objects.get(pk=pk)

@@ -1,6 +1,17 @@
 from rest_framework import serializers
 from .models import Project, Pledge
 
+class ChoicesField(object):
+    def __init__(self,choices):
+        self.choices = choices
+        # super(ChoicesField,self).__init__(**kwargs)
+
+        # def to_representation(self,obj):
+        #     return self._choices[obj]
+
+        # def to_internal_value(self,data):
+        #     return getattr(self._choices,data)
+
 class PledgeSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     amount = serializers.IntegerField()
@@ -35,12 +46,15 @@ class ProjectSerializer(serializers.Serializer):
     sample = serializers.CharField()
     pledges = PledgeSerializer(many=True, read_only=True)
     owner = serializers.ReadOnlyField(source='owner.id')
-    category = serializers.SerializerMethodField(source='get_category_display')
+    category = serializers.ChoiceField(choices=Project.CATEGORY_CHOICES)
+    # serializers.SerializerMethodField(source='get_category_display')
+    #serializerMethodField is ReadOnly, but it enables get_field_name_display...
+    
     class Meta:
         model = Project
     
-    def get_category(self,obj):
-        return obj.get_category_display()
+    # def get_category(self,obj):
+    #     return obj.get_category_display()
 
     def create(self, validated_data):
         return Project.objects.create(**validated_data)
