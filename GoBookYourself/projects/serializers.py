@@ -47,8 +47,7 @@ class ProjectSerializer(serializers.Serializer):
     pledges = PledgeSerializer(many=True, read_only=True)
     owner = serializers.ReadOnlyField(source='owner.id')
     category = serializers.ChoiceField(choices=Project.CATEGORY_CHOICES)
-    # serializers.SerializerMethodField(source='get_category_display')
-    #serializerMethodField is ReadOnly, but it enables get_field_name_display...
+   
     
     class Meta:
         model = Project

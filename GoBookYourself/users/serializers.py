@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from .models import CustomUser
 
+
+class ChoicesField(object):
+    def __init__(self,choices):
+        self.choices = choices
+
+
 class CustomUserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     username = serializers.CharField(max_length=200)
@@ -8,12 +14,10 @@ class CustomUserSerializer(serializers.Serializer):
     tagline = serializers.CharField(max_length=200, required = False)
     bio = serializers.CharField(required=False)
     profile_pic = serializers.URLField(required=False)
-    favorite_genre = serializers.SerializerMethodField(source='get_favorite_genre_display')
+    favorite_genre = serializers.ChoiceField(choices=CustomUser.CATEGORY_CHOICES)
+   
     class Meta:
         model = CustomUser
-    
-    def get_favorite_genre(self,obj):
-        return obj.get_favorite_genre_display()
 
     def create (self, validated_data):
         return CustomUser.objects.create(**validated_data)
