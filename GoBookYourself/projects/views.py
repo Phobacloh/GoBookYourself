@@ -11,7 +11,9 @@ from .permissions import IsOwnerOrReadOnly
 
 class ProjectList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    
+    queryset = Project.objects.all()
+    serializer_class = ProjectSerializer
+
     def get(self, request):
         projects = Project.objects.all()
         serializer = ProjectSerializer(projects, many=True)
@@ -120,3 +122,11 @@ class PledgeDetail(APIView):
         pledge = self.get_object(pk)
         pledge.delete()
         return Response (status=status.HTTP_204_NO_CONTENT)
+
+# @api_view("POST")
+# def CategoriesInsert(request):
+#     if request.method=="POST":
+#         serializerobj=CategoriesSerilaizer(data=request.data)
+#         if serializerobj.is_valid():
+#             serializerobj.save()
+#             return Response(serializerobj.data)

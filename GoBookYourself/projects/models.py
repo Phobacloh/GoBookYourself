@@ -10,8 +10,23 @@ class Project(models.Model):
     image = models.URLField()
     is_open = models.BooleanField()
     date_created = models.DateTimeField()
+    date_closed = models.DateTimeField(blank=True, null=True)
     # owner = models.CharField(max_length=200)
     sample = models.TextField()
+    CATEGORY_CHOICES = (
+        ('YA', 'Young Adult'),
+        ('RO', 'Romance'),
+        ('FA', 'Fantasy'),
+        ('SF', 'Sci-Fi'),
+        ('NF', 'Non-Fiction'),
+        ('GN', 'Graphic Novels & Comics'),
+        ('MY', 'Mystery'),
+        ('HF', 'Historical Fiction'),
+        ('HO', 'Horror'),
+        ('TH', 'Thriller'),
+        ('PO', 'Poetry')
+    )
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     owner = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
@@ -33,3 +48,10 @@ class Pledge(models.Model):
         on_delete=models.CASCADE,
         related_name='supporter_pledges'
     )
+
+# class Categories(models.Model):
+#     category=models.CharField(max_length=200)
+#     class Meta:
+#         db_table="categories"
+
+        
