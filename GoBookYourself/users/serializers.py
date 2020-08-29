@@ -15,7 +15,7 @@ class CustomUserSerializer(serializers.Serializer):
     tagline = serializers.CharField(max_length=200, required = False)
     bio = serializers.CharField(required=False)
     profile_pic = serializers.URLField(required=False)
-    favorite_genre = serializers.ChoiceField(choices=CustomUser.CATEGORY_CHOICES)
+    favorite_genre = serializers.ChoiceField(required=False, choices=CustomUser.CATEGORY_CHOICES)
    
     class Meta:
         model = CustomUser
