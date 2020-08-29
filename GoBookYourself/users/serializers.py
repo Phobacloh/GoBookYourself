@@ -10,6 +10,7 @@ class ChoicesField(object):
 class CustomUserSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     username = serializers.CharField(max_length=200)
+    password = serializers.CharField(write_only=True)
     email = serializers.CharField(max_length=200)
     tagline = serializers.CharField(max_length=200, required = False)
     bio = serializers.CharField(required=False)

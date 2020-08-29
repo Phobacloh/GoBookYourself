@@ -35,7 +35,7 @@ class PledgeDetailSerializer(PledgeSerializer):
         return instance
 
 class ProjectSerializer(serializers.Serializer):
-    id = serializers.ReadOnlyField
+    id = serializers.ReadOnlyField()
     title = serializers.CharField(max_length=200)
     description = serializers.CharField(max_length=10000)
     goal = serializers.IntegerField()
