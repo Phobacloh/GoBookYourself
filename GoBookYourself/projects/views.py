@@ -15,16 +15,8 @@ class ProjectList(APIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
-    # def get(self, request):
-    #     projects = Project.objects.all()
-    #     serializer = ProjectSerializer(projects, many=True)
-    #     return Response(serializer.data)
-
     def get_queryset(self):
-        """
-        Optionally restricts the returned purchases to a given user,
-        by filtering against a `username` query parameter in the URL.
-        """
+        
         queryset = Project.objects.all()
         username = self.request.query_params.get('username', None)
         category = self.request.query_params.get('category', None)
@@ -35,7 +27,6 @@ class ProjectList(APIView):
         return queryset
 
     def get(self, request):
-        #make this filter by category
         projects = self.get_queryset()
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
@@ -94,9 +85,17 @@ class ProjectDetail(APIView):
 
 class PledgeList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-
+    
+    def get_queryset(self):
+        
+        queryset = Pledge.objects.all()
+        username = self.request.query_params.get('username', None)
+        if username is not None:
+            queryset = queryset.filter(owner__username=username)
+        return queryset
+    
     def get(self, request):
-        pledges = Pledge.objects.all()
+        pledges = self.get_queryset()
         serializer = PledgeSerializer(pledges, many=True)
         return Response(serializer.data)
 
