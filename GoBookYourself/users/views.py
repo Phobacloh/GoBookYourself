@@ -26,7 +26,7 @@ class CustomUserList(APIView):
         return Response(serializer.errors)
         
 class CustomUserDetail(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_object(self, pk):
         try:
@@ -41,11 +41,13 @@ class CustomUserDetail(APIView):
     
     def delete (self, request, pk):
         user = self.get_object(pk)
+        self.check_object_permissions(request, user)
         user.delete()
         return Response (status=status.HTTP_204_NO_CONTENT)
     
     def put(self, request, pk):
         user = self.get_object(pk)
+        self.check_object_permissions(request, user)
         data = request.data
         serializer = CustomUserSerializer(
             instance=user, 

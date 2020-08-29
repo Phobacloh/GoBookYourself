@@ -5,6 +5,7 @@ from rest_framework import status, permissions
 from .models import Project, Pledge
 from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, PledgeDetailSerializer
 from .permissions import IsOwnerOrReadOnly
+from users.models import CustomUser
 
 
 # Create your views here.
@@ -14,11 +15,30 @@ class ProjectList(APIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
+    # def get(self, request):
+    #     projects = Project.objects.all()
+    #     serializer = ProjectSerializer(projects, many=True)
+    #     return Response(serializer.data)
+
+    def get_queryset(self):
+        """
+        Optionally restricts the returned purchases to a given user,
+        by filtering against a `username` query parameter in the URL.
+        """
+        queryset = Project.objects.all()
+        username = self.request.query_params.get('username', None)
+        category = self.request.query_params.get('category', None)
+        if username is not None:
+            queryset = queryset.filter(owner__username=username)
+        if category is not None:
+            queryset = queryset.filter(category=category)
+        return queryset
+
     def get(self, request):
-        projects = Project.objects.all()
+        #make this filter by category
+        projects = self.get_queryset()
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
-
 
     def post(self, request):
         serializer = ProjectSerializer(data=request.data)
@@ -36,7 +56,7 @@ class ProjectDetail(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
-    
+
     def get_object(self,pk):
         try:
             return Project.objects.get(pk=pk)
@@ -50,6 +70,7 @@ class ProjectDetail(APIView):
 
     def put(self, request, pk):
         project = self.get_object(pk)
+        self.check_object_permissions(request, project)
         data = request.data
         serializer = ProjectDetailSerializer(
             instance=project, 
@@ -67,6 +88,7 @@ class ProjectDetail(APIView):
             )
     def delete (self, request, pk):
         project = self.get_object(pk)
+        self.check_object_permissions(request, project)
         project.delete()
         return Response (status=status.HTTP_204_NO_CONTENT)
 
@@ -105,6 +127,7 @@ class PledgeDetail(APIView):
 
     def put(self, request, pk):
         pledge = self.get_object(pk)
+        self.check_object_permissions(request, pledge)
         data = request.data
         serializer = PledgeDetailSerializer(
             instance=pledge, 
@@ -122,13 +145,6 @@ class PledgeDetail(APIView):
             )
     def delete (self, request, pk):
         pledge = self.get_object(pk)
+        self.check_object_permissions(request, pledge)
         pledge.delete()
         return Response (status=status.HTTP_204_NO_CONTENT)
-
-# @api_view("POST")
-# def CategoriesInsert(request):
-#     if request.method=="POST":
-#         serializerobj=CategoriesSerilaizer(data=request.data)
-#         if serializerobj.is_valid():
-#             serializerobj.save()
-#             return Response(serializerobj.data)
