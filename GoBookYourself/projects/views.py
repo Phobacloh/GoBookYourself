@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 from .models import Project, Pledge
 from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, PledgeDetailSerializer
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 from users.models import CustomUser
 
 
@@ -91,7 +91,7 @@ class PledgeList(APIView):
         queryset = Pledge.objects.all()
         username = self.request.query_params.get('username', None)
         if username is not None:
-            queryset = queryset.filter(owner__username=username)
+            queryset = queryset.filter(supporter__username=username)
         return queryset
     
     def get(self, request):
@@ -111,7 +111,7 @@ class PledgeList(APIView):
             )
 
 class PledgeDetail(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsSupporterOrReadOnly]
 
     def get_object(self,pk):
         try:

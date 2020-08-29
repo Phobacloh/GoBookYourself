@@ -19,9 +19,19 @@ class CustomUserSerializer(serializers.Serializer):
    
     class Meta:
         model = CustomUser
+        extra_kwargs = {'password': {'write_only': True}}
 
-    def create (self, validated_data):
-        return CustomUser.objects.create(**validated_data)
+    def create(self, validated_data):
+        user = CustomUser(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
+    # def create (self, validated_data):
+    #     return CustomUser.objects.create(**validated_data)
     
     def update(self, instance, validated_data):
         instance.username = validated_data.get('username', instance.username)
@@ -32,3 +42,6 @@ class CustomUserSerializer(serializers.Serializer):
         instance.favorite_genre = validated_data.get('favorite_genre', instance.favorite_genre)
         instance.save()
         return instance
+
+
+        
