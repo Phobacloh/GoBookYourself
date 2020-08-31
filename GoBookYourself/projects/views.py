@@ -6,6 +6,7 @@ from .models import Project, Pledge
 from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, PledgeDetailSerializer
 from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 from users.models import CustomUser
+from rest_framework import filters
 
 
 # Create your views here.
@@ -14,16 +15,21 @@ class ProjectList(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['category', 'date_created']
 
     def get_queryset(self):
         
         queryset = Project.objects.all()
         username = self.request.query_params.get('username', None)
         category = self.request.query_params.get('category', None)
+        date_created = self.request.query_params.get('date_created', None)
         if username is not None:
             queryset = queryset.filter(owner__username=username)
         if category is not None:
             queryset = queryset.filter(category=category)
+        # if date_created is not None:
+        #     queryset = queryset.filter(dated_created=date_created)
         return queryset
 
     def get(self, request):
@@ -41,7 +47,6 @@ class ProjectList(APIView):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
-
 
 class ProjectDetail(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
