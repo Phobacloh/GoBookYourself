@@ -28,8 +28,8 @@ class ProjectList(APIView):
             queryset = queryset.filter(owner__username=username)
         if category is not None:
             queryset = queryset.filter(category=category)
-        # if date_created is not None:
-        #     queryset = queryset.filter(dated_created=date_created)
+        if date_created is not None:
+            queryset = queryset.filter(dated_created=date_created)
         return queryset
 
     def get(self, request):

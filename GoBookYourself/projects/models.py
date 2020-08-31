@@ -14,18 +14,18 @@ class Project(models.Model):
     # owner = models.CharField(max_length=200)
     sample = models.TextField()
     CATEGORY_CHOICES = (
-        ('Anything', 'NA'),
-        ('Young Adult', 'YA'),
-        ('Romance', 'RO'),
-        ('Fantasy', 'FA'),
-        ('Sci-Fi', 'SF'),
-        ('Non-Fiction', 'NF'),
-        ('Graphic Novels & Comics', 'GN'),
-        ('Mystery', 'MY'),
-        ('Historical Fiction', 'HF'),
-        ('Horror', 'HO'),
-        ('Thriller', 'TH'),
-        ('Poetry', 'PO')
+        ('Anything', 'Anything'),
+        ('Young Adult', 'Young Adult'),
+        ('Romance', 'Romance'),
+        ('Fantasy', 'Fantasy'),
+        ('Sci-Fi', 'Sci-Fi'),
+        ('Non-Fiction', 'Non-Fiction'),
+        ('Graphic Novels & Comics', 'Graphic Novels & Comics'),
+        ('Mystery', 'Mystery'),
+        ('Historical Fiction', 'Historical Fiction'),
+        ('Horror', 'Horror'),
+        ('Thriller', 'Thriller'),
+        ('Poetry', 'Poetry')
     )
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
     owner = models.ForeignKey(
