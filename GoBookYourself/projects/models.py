@@ -10,7 +10,7 @@ class Project(models.Model):
     image = models.URLField()
     is_open = models.BooleanField()
     date_created = models.DateTimeField()
-    date_closed = models.DateTimeField(blank=True, null=True)
+    date_closed = models.DateTimeField()
     # owner = models.CharField(max_length=200)
     sample = models.TextField()
     CATEGORY_CHOICES = (

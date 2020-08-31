@@ -15,7 +15,7 @@ class ChoicesField(object):
 class PledgeSerializer(serializers.Serializer):
     id = serializers.ReadOnlyField()
     amount = serializers.IntegerField()
-    comment = serializers.CharField(max_length=500)
+    comment = serializers.CharField(required=False, max_length=500)
     anonymous = serializers.BooleanField()
     project_id = serializers.IntegerField()
     supporter = serializers.ReadOnlyField(source='user.id')
@@ -44,6 +44,7 @@ class ProjectSerializer(serializers.Serializer):
     image = serializers.URLField()
     is_open = serializers.BooleanField()
     date_created = serializers.DateTimeField()
+    date_closed = serializers.DateTimeField()
     # owner = serializers.CharField(max_length=200)
     sample = serializers.CharField()
     pledges = PledgeSerializer(many=True, read_only=True)
