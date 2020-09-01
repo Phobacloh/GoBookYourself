@@ -6,12 +6,13 @@ from .models import Project, Pledge
 from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, PledgeDetailSerializer
 from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 from users.models import CustomUser
+from rest_framework import generics
 
 
 
 # Create your views here.
 
-class ProjectList(APIView):
+class ProjectList(generics.ListAPIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
@@ -24,12 +25,15 @@ class ProjectList(APIView):
         username = self.request.query_params.get('username', None)
         category = self.request.query_params.get('category', None)
         date_created = self.request.query_params.get('date_created', None)
+        date_closed = self.request.query_params.get('date_closed', None)
         if username is not None:
             queryset = queryset.filter(owner__username=username)
         if category is not None:
             queryset = queryset.filter(category=category)
         if date_created is not None:
             queryset = queryset.filter(date_created=date_created)
+        if date_closed is not None:
+            queryset = queryset.filter(date_closed=date_closed)    
         return queryset
 
     def get(self, request):
