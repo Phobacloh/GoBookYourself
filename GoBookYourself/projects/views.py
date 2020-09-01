@@ -1,12 +1,12 @@
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status, permissions, filters
 from .models import Project, Pledge
 from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, PledgeDetailSerializer
 from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 from users.models import CustomUser
-from rest_framework import filters
+
 
 
 # Create your views here.
@@ -29,7 +29,7 @@ class ProjectList(APIView):
         if category is not None:
             queryset = queryset.filter(category=category)
         if date_created is not None:
-            queryset = queryset.filter(dated_created=date_created)
+            queryset = queryset.filter(date_created=date_created)
         return queryset
 
     def get(self, request):
