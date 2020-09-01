@@ -26,6 +26,7 @@ class ProjectList(generics.ListAPIView):
         category = self.request.query_params.get('category', None)
         date_created = self.request.query_params.get('date_created', None)
         date_closed = self.request.query_params.get('date_closed', None)
+        is_open = self.request.query_params.get('is_open', False)
         if username is not None:
             queryset = queryset.filter(owner__username=username)
         if category is not None:
@@ -33,7 +34,9 @@ class ProjectList(generics.ListAPIView):
         if date_created is not None:
             queryset = queryset.filter(date_created=date_created)
         if date_closed is not None:
-            queryset = queryset.filter(date_closed=date_closed)    
+            queryset = queryset.filter(date_closed=date_closed)
+        if is_open is not False:
+            queryset = queryset.filter(is_open=is_open)     
         return queryset
 
     def get(self, request):
@@ -78,7 +81,7 @@ class ProjectDetail(APIView):
             partial=True
             )
 
-        if serializer.is_valid():
+        if project.is_open is not False and serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         else:

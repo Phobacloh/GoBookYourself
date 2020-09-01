@@ -9,7 +9,7 @@ class Project(models.Model):
     goal = models.IntegerField()
     image = models.URLField()
     is_open = models.BooleanField()
-    date_created = models.DateTimeField()
+    date_created = models.DateTimeField(auto_now=True)
     date_closed = models.DateTimeField()
     # owner = models.CharField(max_length=200)
     sample = models.TextField()
