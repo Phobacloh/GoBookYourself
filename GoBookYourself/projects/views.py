@@ -81,7 +81,7 @@ class ProjectDetail(APIView):
             partial=True
             )
 
-        if project.is_open is not False and serializer.is_valid():
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         else:
