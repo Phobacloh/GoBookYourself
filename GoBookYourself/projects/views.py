@@ -7,6 +7,7 @@ from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSeria
 from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
 from users.models import CustomUser
 from rest_framework import generics
+from rest_framework import filters
 
 
 
