@@ -18,7 +18,7 @@ class PledgeSerializer(serializers.Serializer):
     comment = serializers.CharField(required=False, max_length=500)
     anonymous = serializers.BooleanField()
     project_id = serializers.IntegerField()
-    supporter = serializers.ReadOnlyField(source='user.id')
+    supporter = serializers.ReadOnlyField(source='user.username')
 
     def create(self, validated_data):
         return Pledge.objects.create(**validated_data)
@@ -48,7 +48,7 @@ class ProjectSerializer(serializers.Serializer):
     # owner = serializers.CharField(max_length=200)
     sample = serializers.CharField()
     pledges = PledgeSerializer(many=True, read_only=True)
-    owner = serializers.ReadOnlyField(source='owner.id')
+    owner = serializers.ReadOnlyField(source='owner.username')
     category = serializers.ChoiceField(choices=Project.CATEGORY_CHOICES)
    
     
