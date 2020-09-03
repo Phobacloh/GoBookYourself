@@ -40,7 +40,7 @@ class ProjectList(generics.ListAPIView):
         return queryset
 
     def get(self, request):
-        projects = self.get_queryset()
+        projects = self.filter_queryset(self.get_queryset())
         serializer = ProjectSerializer(projects, many=True)
         return Response(serializer.data)
 
