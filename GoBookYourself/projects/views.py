@@ -1,7 +1,7 @@
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions, filters
+from rest_framework import status, permissions
 from .models import Project, Pledge
 from .serializers import ProjectSerializer, PledgeSerializer, ProjectDetailSerializer, PledgeDetailSerializer
 from .permissions import IsOwnerOrReadOnly, IsSupporterOrReadOnly
@@ -66,7 +66,7 @@ class ProjectDetail(APIView):
         except Project.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk):
+    def get(self, request, pk, is_open):
         project = self.get_object(pk)
         serializer = ProjectDetailSerializer(project)
         return Response(serializer.data)
@@ -81,7 +81,7 @@ class ProjectDetail(APIView):
             partial=True
             )
 
-        if serializer.is_valid():
+        if serializer.is_valid() and is_open is True:
             serializer.save()
             return Response(serializer.data)
         else:
