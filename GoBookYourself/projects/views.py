@@ -36,7 +36,7 @@ class ProjectList(generics.ListAPIView):
             queryset = queryset.filter(date_created=date_created)
         if date_closed is not None:
             queryset = queryset.filter(date_closed=date_closed)
-        if is_open is not False:
+        if is_open is  True:
             queryset = queryset.filter(is_open=is_open)     
         return queryset
 
@@ -82,7 +82,7 @@ class ProjectDetail(APIView):
             partial=True
             )
 
-        if serializer.is_valid() and is_open is True:
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         else:
