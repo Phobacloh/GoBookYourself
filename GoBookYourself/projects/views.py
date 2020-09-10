@@ -27,7 +27,7 @@ class ProjectList(generics.ListAPIView):
         category = self.request.query_params.get('category', None)
         date_created = self.request.query_params.get('date_created', None)
         date_closed = self.request.query_params.get('date_closed', None)
-        is_open = self.request.query_params.get('is_open', False)
+        is_open = self.request.query_params.get('is_open', True)
         if username is not None:
             queryset = queryset.filter(owner__username=username)
         if category is not None:
