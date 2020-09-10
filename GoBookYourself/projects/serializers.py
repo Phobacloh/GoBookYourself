@@ -48,7 +48,7 @@ class ProjectSerializer(serializers.Serializer):
     # owner = serializers.CharField(max_length=200)
     sample = serializers.CharField()
     pledges = PledgeSerializer(many=True, read_only=True)
-    owner = serializers.ReadOnlyField(source='owner.username')
+    owner = serializers.ReadOnlyField(source='owner.id')
     category = serializers.ChoiceField(choices=Project.CATEGORY_CHOICES)
    
     
