@@ -67,7 +67,7 @@ class ProjectDetail(APIView):
         except Project.DoesNotExist:
             raise Http404
 
-    def get(self, request, pk, is_open):
+    def get(self, request, pk):
         project = self.get_object(pk)
         serializer = ProjectDetailSerializer(project)
         return Response(serializer.data)
