@@ -26,14 +26,14 @@ class CustomUserList(APIView):
         return Response(serializer.errors)
         
 class CustomUserDetail(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
     def get_object(self,pk):
         try:
-            return Project.objects.get(pk=pk)
-        except Project.DoesNotExist:
+            return CustomUser.objects.get(pk=pk)
+        except CustomUser.DoesNotExist:
             raise Http404
         
     def get(self, request, pk):
