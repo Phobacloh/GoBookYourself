@@ -26,7 +26,7 @@ class CustomUserList(APIView):
         return Response(serializer.errors)
         
 class CustomUserDetail(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly,IsOwnerOrReadOnly]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
