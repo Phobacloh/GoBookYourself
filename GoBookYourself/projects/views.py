@@ -90,6 +90,7 @@ class ProjectDetail(APIView):
                 serializer.errors,
                 status=status.HTTP_400_BAD_REQUEST
             )
+            
     def delete (self, request, pk):
         project = self.get_object(pk)
         self.check_object_permissions(request, project)
