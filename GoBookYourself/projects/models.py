@@ -43,16 +43,10 @@ class Pledge(models.Model):
         on_delete=models.CASCADE,
         related_name='pledges'
     )
-    # supporter = models.CharField(max_length=200)
     supporter = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name='supporter_pledges'
     )
 
-# class Categories(models.Model):
-#     category=models.CharField(max_length=200)
-#     class Meta:
-#         db_table="categories"
-
-        
+       # supporter = models.CharField(max_length=200)     
