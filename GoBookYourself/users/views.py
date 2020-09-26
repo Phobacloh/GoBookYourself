@@ -11,7 +11,6 @@ from .permissions import IsOwnerOrReadOnly
 
 
 class CustomUserList(APIView):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     
     def get(self, request):
         users = CustomUser.objects.all()
