@@ -52,8 +52,8 @@ class ProjectSerializer(serializers.Serializer):
     category = serializers.ChoiceField(choices=Project.CATEGORY_CHOICES)
    
     
-    class Meta:
-        model = Project
+    # class Meta:
+    #     model = Project
     
     # def get_category(self,obj):
     #     return obj.get_category_display()

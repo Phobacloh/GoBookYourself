@@ -46,6 +46,7 @@ class ProjectList(generics.ListAPIView):
         return Response(serializer.data)
 
     def post(self, request):
+        print(request.user)
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(owner=request.user)
