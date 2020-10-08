@@ -15,14 +15,14 @@ class Project(models.Model):
     sample = models.TextField()
     CATEGORY_CHOICES = (
         ('Anything', 'Anything'),
-        ('Young Adult', 'Young Adult'),
+        ('Young-Adult', 'Young-Adult'),
         ('Romance', 'Romance'),
         ('Fantasy', 'Fantasy'),
         ('Sci-Fi', 'Sci-Fi'),
         ('Non-Fiction', 'Non-Fiction'),
-        ('Graphic Novels & Comics', 'Graphic Novels & Comics'),
+        ('Graphic-Novels-&-Comics', 'Graphic-Novels-&-Comics'),
         ('Mystery', 'Mystery'),
-        ('Historical Fiction', 'Historical Fiction'),
+        ('Historical-Fiction', 'Historical-Fiction'),
         ('Horror', 'Horror'),
         ('Thriller', 'Thriller'),
         ('Poetry', 'Poetry')
