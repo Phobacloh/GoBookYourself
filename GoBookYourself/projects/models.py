@@ -20,7 +20,7 @@ class Project(models.Model):
         ('Fantasy', 'Fantasy'),
         ('Sci-Fi', 'Sci-Fi'),
         ('Non-Fiction', 'Non-Fiction'),
-        ('Graphic-Novels-&-Comics', 'Graphic-Novels-&-Comics'),
+        ('Graphic-Novels-and-Comics', 'Graphic-Novels-and-Comics'),
         ('Mystery', 'Mystery'),
         ('Historical-Fiction', 'Historical-Fiction'),
         ('Horror', 'Horror'),
